@@ -1,18 +1,16 @@
 import os  
 
-# Define the database name and path  
+# Accessing Streamlit secrets for sensitive data  
+GOOGLE_CLIENT_ID = st.secrets["google"]["client_id"]  
+GOOGLE_CLIENT_SECRET = st.secrets["google"]["client_secret"]  
+
+# Initialize the database name and path  
 DB_NAME = 'email_assistant.db'  
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the current directory  
 DATABASE_URI = os.path.join(BASE_DIR, DB_NAME)  # Create the absolute path to the database  
 
-# Google API credentials  
-GOOGLE_API_CREDENTIALS = 'path/to/credentials.json'  
-
 # OpenAI API key  
-OPENAI_API_KEY = 'your_openai_api_key'  
+OPENAI_API_KEY = st.secrets["openai"]["OPENAI_API_KEY"]  
 
 # Slack credentials  
-SLACK_BOT_TOKEN = 'your_slack_bot_token'  
-
-# Database connection  
-DATABASE_URI = 'sqlite:///email_assistant.db'  # Or PostgreSQL connection string  
+SLACK_BOT_TOKEN = st.secrets["slack"]["SLACK_BOT_TOKEN"]
