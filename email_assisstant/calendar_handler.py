@@ -5,7 +5,7 @@ import config
 def authenticate_calendar():  
     try:  
         # Create credentials from service account info in config  
-        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.GOOGLE_CREDENTIALS)  
+        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.CALENDAR_CREDENTIALS)  
 
         # Specify the Calendar scope  
         scopes = ['https://www.googleapis.com/auth/calendar']  
