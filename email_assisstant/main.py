@@ -4,7 +4,7 @@ from email_handler import authenticate_gmail, fetch_emails
 def main():  
     st.title("Gmail API Tester")  
 
-    user_email = mastersiva530@gmail.com  
+    user_email = 'mastersiva530@gmail.com'  
 
     # Authenticate Gmail  
     gmail_service = authenticate_gmail(user_email)  
