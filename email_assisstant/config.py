@@ -1,4 +1,5 @@
-import os  
+import os
+import streamlit as st
 
 # Accessing Streamlit secrets for sensitive data  
 GOOGLE_CLIENT_ID = st.secrets["google"]["client_id"]  
