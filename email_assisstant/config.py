@@ -5,6 +5,7 @@ import streamlit as st
 GOOGLE_CLIENT_ID = st.secrets["google"]["client_id"]  
 GOOGLE_CLIENT_SECRET = st.secrets["google"]["client_secret"]
 GOOGLE_CREDENTIALS = st.secrets["credentials"]
+CALENDAR_CREDENTIALS = st.secrets["calendar"]
 
 # Initialize the database name and path  
 DB_NAME = 'email_assistant.db'  
