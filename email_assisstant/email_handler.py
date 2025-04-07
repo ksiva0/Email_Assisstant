@@ -6,11 +6,21 @@ from googleapiclient.errors import HttpError
 from config import GOOGLE_API_CREDENTIALS  
 
 def authenticate_gmail():  
+    # Create a credentials object for OAuth 2.0 flow  
+    flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_config(  
+        {  
+            "installed": {  
+                "client_id": st.secrets["google"]["client_id"],  
+                "client_secret": st.secrets["google"]["client_secret"],  
+                "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob"],  
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",  
+                "token_uri": "https://oauth2.googleapis.com/token",  
+            }  
+        },  
+        scopes=['https://www.googleapis.com/auth/gmail.readonly']  
+    )  
+
     try:  
-        print(f"Using credentials file: {GOOGLE_API_CREDENTIALS}")  # Debug statement  
-        flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(  
-            GOOGLE_API_CREDENTIALS,  
-            scopes=['https://www.googleapis.com/auth/gmail.readonly'])  
         credentials = flow.run_local_server(port=0)  
         return googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
     except Exception as e:  
