@@ -1,5 +1,3 @@
-# app.py  
-
 import streamlit as st  
 from email_handler import authenticate_gmail, fetch_emails  
 from database import init_db, insert_email  
