@@ -12,22 +12,12 @@ def main():
     service = authenticate_gmail()  
     if service:  
         st.success("Successfully authenticated with Gmail.")  
+        # You can now call fetch_emails function or other functionality here  
         emails = fetch_emails(service)  
-        for email in emails:  
-            insert_email(email)  # Store email in DB  
-            st.write(f"From: {email['sender']}, Subject: {email['subject']}")  
-
-            # Generate a reply for the email  
-            if st.button(f"Generate Reply for {email['subject']}"):  
-                reply = generate_reply(email['body'])  
-                st.text_area("Generated Reply:", reply)  
-
-                # Optional: send reply to Slack or create calendar event  
-                # send_slack_message(channel='your_channel_id', message=reply)  
-                # create_event(event_data) - Define event_data as per your needs  
+        st.write("Emails fetched successfully.", emails)  # Replace this with your actual function.  
 
     else:  
-        st.error("Failed to authenticate with Gmail.")  
+        st.error("Failed to authenticate with Gmail.")   
 
 if __name__ == "__main__":  
     init_db()  
