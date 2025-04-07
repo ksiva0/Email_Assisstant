@@ -4,7 +4,7 @@ import streamlit as st
 # Accessing Streamlit secrets for sensitive data  
 GOOGLE_CLIENT_ID = st.secrets["google"]["client_id"]  
 GOOGLE_CLIENT_SECRET = st.secrets["google"]["client_secret"]
-GOOGLE_API_CREDENTIALS = st.secrets["credentials"]
+GOOGLE_CREDENTIALS = st.secrets["credentials"]
 
 # Initialize the database name and path  
 DB_NAME = 'email_assistant.db'  
