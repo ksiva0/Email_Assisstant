@@ -4,19 +4,17 @@ import googleapiclient.discovery
 from googleapiclient.errors import HttpError  
 import config  
 
-def authenticate_gmail():  
+def authenticate_gmail(user_email):  
     try:  
         # Create credentials from service account info in the config  
-        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.GOOGLE_CREDENTIALS)  
-        
-        # Specify the Gmail scope  
-        scopes = ['https://www.googleapis.com/auth/gmail.readonly']  
+        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.GOOGLE_CREDENTIALS,  
+            scopes=['https://www.googleapis.com/auth/gmail.readonly'])  
 
-        # Add the required scopes  
-        scoped_credentials = credentials.with_scopes(scopes)  
+        # Impersonate the user  
+        credentials = credentials.with_subject(user_email)  
 
         # Create an authenticated Gmail service  
-        service = googleapiclient.discovery.build('gmail', 'v1', credentials=scoped_credentials)  
+        service = googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
         return service  
     except Exception as e:  
         print(f"Error during Gmail authentication: {e}")  
@@ -24,7 +22,6 @@ def authenticate_gmail():
 
 def fetch_emails(service, query=""):  
     try:  
-        # List user messages  
         results = service.users().messages().list(userId='me', q=query).execute()  
         messages = results.get('messages', [])  
         emails = []  
