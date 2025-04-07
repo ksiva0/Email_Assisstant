@@ -6,14 +6,16 @@ import config
 
 def authenticate_gmail(user_email):  
     try:  
-        # Create credentials from service account info in the config  
-        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.GOOGLE_CREDENTIALS,  
-            scopes=['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/userinfo.email'])  
+        # Load credentials and specify the scopes  
+        credentials = google.oauth2.service_account.Credentials.from_service_account_info(  
+            config.GOOGLE_CREDENTIALS,  
+            scopes=['https://www.googleapis.com/auth/gmail.readonly']  
+        )  
 
         # Impersonate the user  
         credentials = credentials.with_subject(user_email)  
 
-        # Create an authenticated Gmail service  
+        # Build a Gmail service  
         service = googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
         return service  
     except Exception as e:  
