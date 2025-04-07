@@ -7,13 +7,14 @@ from config import GOOGLE_API_CREDENTIALS
 
 def authenticate_gmail():  
     try:  
+        print(f"Using credentials file: {GOOGLE_API_CREDENTIALS}")  # Debug statement  
         flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(  
             GOOGLE_API_CREDENTIALS,  
             scopes=['https://www.googleapis.com/auth/gmail.readonly'])  
         credentials = flow.run_local_server(port=0)  
         return googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
-    except HttpError as error:  
-        print(f'An error occurred: {error}')  
+    except Exception as e:  
+        print(f"Error during authentication: {e}")  # Print any authentication errors  
         return None  
 
 def fetch_emails(service, query=""):  
