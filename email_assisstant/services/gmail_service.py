@@ -4,11 +4,11 @@ import os
 
 def get_gmail_service():
     creds = Credentials(
-        token=os.getenv("GMAIL_ACCESS_TOKEN"),
-        refresh_token=os.getenv("GMAIL_REFRESH_TOKEN"),
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=os.getenv("GMAIL_CLIENT_ID"),
-        client_secret=os.getenv("GMAIL_CLIENT_SECRET"),
+        token=os.getenv("ACCESS_TOKEN"),
+        refresh_token=os.getenv("REFRESH_TOKEN"),
+        token_uri=os.getenv("token_uri"),
+        client_id=os.getenv("client_id"),
+        client_secret=os.getenv("client_secret")
     )
     return build("gmail", "v1", credentials=creds)
 
