@@ -2,28 +2,27 @@ import googleapiclient.discovery
 import google.oauth2.service_account  
 import config  
 
-def authenticate_calendar():  
-    try:  
-        # Create credentials from service account info in config  
-        credentials = google.oauth2.service_account.Credentials.from_service_account_info(config.CALENDAR_CREDENTIALS)  
+def create_calendar_event(summary, description, location, start_time):  
+    credentials = google.oauth2.service_account.Credentials.from_service_account_info(  
+        config.GOOGLE_CREDENTIALS,  
+        scopes=['https://www.googleapis.com/auth/calendar']  
+    )  
 
-        # Specify the Calendar scope  
-        scopes = ['https://www.googleapis.com/auth/calendar']  
+    service = googleapiclient.discovery.build('calendar', 'v3', credentials=credentials)  
 
-        # Add the required scopes  
-        scoped_credentials = credentials.with_scopes(scopes)  
+    event = {  
+        'summary': summary,  
+        'location': location,  
+        'description': description,  
+        'start': {  
+            'dateTime': start_time,  
+            'timeZone': 'America/Los_Angeles',  # Change to your timezone  
+        },  
+        'end': {  
+            'dateTime': start_time,  # Adjust end time as needed  
+            'timeZone': 'America/Los_Angeles',  
+        },  
+    }  
 
-        # Build the Google Calendar service  
-        service = googleapiclient.discovery.build('calendar', 'v3', credentials=scoped_credentials)  
-        return service  
-    except Exception as e:  
-        print(f"Error during calendar authentication: {e}")  
-        return None  
-
-def create_event(service, event_details):  
-    try:  
-        event = service.events().insert(calendarId='primary', body=event_details).execute()  
-        return event  
-    except Exception as e:  
-        print(f"An error occurred while creating the event: {e}")  
-        return None  
+    event = service.events().insert(calendarId='primary', body=event).execute()  
+    print('Event created: %s' % (event.get('htmlLink')))  
