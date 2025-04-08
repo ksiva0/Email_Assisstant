@@ -1,5 +1,5 @@
 import streamlit as st  
-from email_handler import authenticate_gmail, fetch_emails  
+from email_assisstant.email_handler import authenticate_gmail, fetch_emails
 from database import create_connection, create_table, store_email  
 from llm_handler import analyze_email_content  
 from web_search import perform_web_search  
