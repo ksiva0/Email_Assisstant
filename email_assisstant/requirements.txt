@@ -1,8 +1,8 @@
 streamlit  
 google-api-python-client  
 google-auth  
-google-auth-oauthlib  
 google-auth-httplib2  
 flask-socketio  
 openai  
-psycopg2-binary  # If you're using PostgreSQL  
+psycopg2-binary
+google-auth-oauthlib
