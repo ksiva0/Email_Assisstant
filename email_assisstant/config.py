@@ -6,6 +6,8 @@ GOOGLE_CLIENT_ID = st.secrets["google"]["client_id"]
 GOOGLE_CLIENT_SECRET = st.secrets["google"]["client_secret"]
 GOOGLE_CREDENTIALS = st.secrets["credentials"]
 CALENDAR_CREDENTIALS = st.secrets["calendar"]
+WEB_SEARCH_API_KEY = st.secrets["GOOGLE_API_KEY"]
+
 
 # Initialize the database name and path  
 DB_NAME = 'email_assistant.db'  
