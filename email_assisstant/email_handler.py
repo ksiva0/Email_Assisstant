@@ -1,8 +1,5 @@
 import base64
-import pickle
-import os
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import config
@@ -14,34 +11,24 @@ SCOPES = [
 ]
 
 def authenticate_gmail(user_email):
-    creds = None
-    token_file = f'token_{user_email}.pickle'
-
-    # Load credentials if they exist
-    if os.path.exists(token_file):
-        with open(token_file, 'rb') as token:
-            creds = pickle.load(token)
-
-    # If no valid credentials, initiate OAuth flow
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_config(
-                config.GOOGLE_OAUTH_CONFIG, SCOPES
-            )
-            creds = flow.run_console()
-
-        # Save credentials for the next run
-        with open(token_file, 'wb') as token:
-            pickle.dump(creds, token)
-
     try:
-        service = build('gmail', 'v1', credentials=creds)
+        # Load credentials from service account config
+        credentials = service_account.Credentials.from_service_account_info(
+            config.GOOGLE_CREDENTIALS,  # this should be your dict from secrets
+            scopes=SCOPES
+        )
+
+        # Impersonate the user
+        delegated_credentials = credentials.with_subject(user_email)
+
+        # Build Gmail service
+        service = build('gmail', 'v1', credentials=delegated_credentials)
         return service
+
     except Exception as e:
         print(f"Error building Gmail service: {e}")
         return None
+
 
 def fetch_emails(service, query=""):
     try:
@@ -60,6 +47,8 @@ def fetch_emails(service, query=""):
                 'thread_id': msg_data['threadId']
             }
             emails.append(email_data)
+
         return emails
     except HttpError as error:
         print(f'An error occurred while fetching emails: {error}')
+        return []
