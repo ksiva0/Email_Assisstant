@@ -9,6 +9,19 @@ CALENDAR_CREDENTIALS = st.secrets["calendar"]
 WEB_SEARCH_API_KEY = st.secrets["google"]["GOOGLE_API_KEY"]
 
 
+GOOGLE_OAUTH_CONFIG = {
+    "installed": {
+        "client_id":"514002371701-cu3q3gji9opn0sadnhulu2c04d9d3gjr.apps.googleusercontent.com",
+      "project_id":"able-math-455408-b1",
+      "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+      "token_uri":"https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+      "client_secret":"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",
+      "redirect_uris":["https://api.slack.com/apps/A08L8C9RZPU/oauth?"]
+    }
+}
+
+
 # Initialize the database name and path  
 DB_NAME = 'email_assistant.db'  
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Get the current directory  
