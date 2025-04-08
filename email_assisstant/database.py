@@ -1,40 +1,37 @@
 import sqlite3  
-from config import DATABASE_URI  
+from sqlite3 import Error  
 
-def init_db():  
-    """Initialize the database and create email table if it doesn't exist."""  
-    conn = None  # Initialize conn to None to ensure it is defined  
+def create_connection(db_file):  
+    """ Create a database connection to the SQLite database specified by db_file """  
+    conn = None  
     try:  
-        conn = sqlite3.connect(DATABASE_URI)  
-        cursor = conn.cursor()  
-        cursor.execute('''  
-            CREATE TABLE IF NOT EXISTS emails (  
-                id INTEGER PRIMARY KEY,  
-                sender TEXT,  
-                recipient TEXT,  
-                subject TEXT,  
-                timestamp DATETIME,  
-                body TEXT,  
-                thread_id TEXT  
-            )  
-        ''')  
-        conn.commit()  # Commit the changes  
-    except sqlite3.Error as e:  
-        print(f"An error occurred: {e}")  # Print the error if one occurs  
-    finally:  
-        if conn:  
-            conn.close()  # Ensure the connection is closed if it was created  
+        conn = sqlite3.connect(db_file)  
+        return conn  
+    except Error as e:  
+        print(e)  
+    return conn  
 
-# The insert_email function remains unchanged  
-def insert_email(email_data):  
-    """Insert an email into the database."""  
-    conn = sqlite3.connect(DATABASE_URI)  
-    cursor = conn.cursor()  
-    cursor.execute('''  
-        INSERT INTO emails (sender, recipient, subject, timestamp, body, thread_id)  
-        VALUES (?, ?, ?, ?, ?, ?)''',  
-        (email_data['sender'], email_data['recipient'],  
-         email_data['subject'], email_data['timestamp'],  
-         email_data['body'], email_data['thread_id']))  
+def create_table(conn):  
+    """ Create a table in the database """  
+    create_emails_table = """  
+    CREATE TABLE IF NOT EXISTS emails (  
+        id TEXT PRIMARY KEY,  
+        sender TEXT NOT NULL,  
+        recipient TEXT NOT NULL,  
+        subject TEXT NOT NULL,  
+        timestamp INTEGER,  
+        body TEXT  
+    );"""  
+    try:  
+        c = conn.cursor()  
+        c.execute(create_emails_table)  
+    except Error as e:  
+        print(e)  
+
+def store_email(conn, email):  
+    """ Store an email in the database """  
+    sql = '''INSERT OR REPLACE INTO emails(id, sender, recipient, subject, timestamp, body)  
+              VALUES(?, ?, ?, ?, ?, ?)'''  
+    cur = conn.cursor()  
+    cur.execute(sql, email)  
     conn.commit()  
-    conn.close()  
