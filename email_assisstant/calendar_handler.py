@@ -4,7 +4,7 @@ import config
 
 def create_calendar_event(summary, description, location, start_time):  
     credentials = google.oauth2.service_account.Credentials.from_service_account_info(  
-        config.GOOGLE_CREDENTIALS,  
+        config.CALENDAR_CREDENTIALS,  
         scopes=['https://www.googleapis.com/auth/calendar']  
     )  
 
