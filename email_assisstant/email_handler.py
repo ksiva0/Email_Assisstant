@@ -8,7 +8,9 @@ def authenticate_gmail(user_email):
     try:  
         credentials = google.oauth2.service_account.Credentials.from_service_account_info(  
             config.GOOGLE_CREDENTIALS,  
-            scopes=['https://www.googleapis.com/auth/gmail.readonly']  
+            scopes=['https://www.googleapis.com/auth/gmail.readonly', 
+                    'https://www.googleapis.com/auth/gmail.send', 
+                    'https://www.googleapis.com/auth/userinfo.email']  
         )  
         credentials = credentials.with_subject(user_email)  
         service = googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
