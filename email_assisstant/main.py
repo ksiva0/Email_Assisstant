@@ -1,10 +1,10 @@
 import streamlit as st  
 from email_handler import authenticate_gmail, fetch_emails  
-from database_handler import create_connection, create_table, store_email  
+from database import create_connection, create_table, store_email  
 from llm_handler import analyze_email_content  
 from web_search import perform_web_search  
-from slack_integration import send_slack_message  
-from calendar_integration import create_calendar_event  
+from slack_handler import send_slack_message  
+from calendar_handler import create_calendar_event  
 
 def main():  
     st.title("AI Personal Email Assistant")  
