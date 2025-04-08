@@ -30,7 +30,7 @@ def authenticate_gmail(user_email):
             flow = InstalledAppFlow.from_client_config(
                 config.GOOGLE_OAUTH_CONFIG, SCOPES
             )
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_console()
 
         # Save credentials for the next run
         with open(token_file, 'wb') as token:
