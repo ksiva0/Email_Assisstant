@@ -6,16 +6,11 @@ import config
 
 def authenticate_gmail(user_email):  
     try:  
-        # Load credentials and specify the scopes  
         credentials = google.oauth2.service_account.Credentials.from_service_account_info(  
             config.GOOGLE_CREDENTIALS,  
             scopes=['https://www.googleapis.com/auth/gmail.readonly']  
         )  
-
-        # Impersonate the user  
         credentials = credentials.with_subject(user_email)  
-
-        # Build a Gmail service  
         service = googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)  
         return service  
     except Exception as e:  
@@ -41,8 +36,4 @@ def fetch_emails(service, query=""):
             emails.append(email_data)  
         return emails  
     except HttpError as error:  
-        print(f'An error occurred while fetching emails: {error}')   
-        return []  
-    except Exception as e:  
-        print(f"An unexpected error occurred: {e}")  
-        return []  
+        print(f'An error occurred while fetching emails: {error}')
