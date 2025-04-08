@@ -1,0 +1,17 @@
+# AI Personal Email Assistant
+
+## Features
+- Gmail API integration
+- GPT-4 summarization
+- Slack alerting
+- Google Calendar scheduling
+- Web search (Bing)
+- Vercel-ready FastAPI backend
+
+## Setup
+- Configure `.env` with Gmail, OpenAI, Slack, Bing credentials
+- Run locally with `uvicorn api.main:app --reload`
+- Deploy using `vercel --prod`
+
+## Architecture
+Emails → Gmail API → GPT Summary → Slack / Calendar → Reply
